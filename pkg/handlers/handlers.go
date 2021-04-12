@@ -7,7 +7,6 @@ import (
 	"net/http"
 )
 
-
 // Repo the repository used by the handlers
 var Repo *Repository
 
@@ -48,5 +47,3 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 		StringMap: stringMap,
 	})
 }
-
-

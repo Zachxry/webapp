@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"path/filepath"
 )
+
 var functions = template.FuncMap{}
 
 var app *config.AppConfig
@@ -28,14 +29,14 @@ func Template(w http.ResponseWriter, html string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template // variable tc that is a map with a [key]value pair of [string] pointer to template.Template
 	// Template is a specialized Template from "text/template" that produces a safe HTML document fragment.
-	if app.UseCache{
+	if app.UseCache {
 		tc = app.TemplateCache
-	}else {
+	} else {
 		tc, _ = CreateTemplateCache()
 	}
 
 	t, ok := tc[html]
-	if !ok  {
+	if !ok {
 		log.Fatal("could not get template")
 	}
 
