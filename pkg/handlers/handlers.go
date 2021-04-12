@@ -47,3 +47,21 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 		StringMap: stringMap,
 	})
 }
+
+// Coffee renders the coffee page
+func (m *Repository) Coffee(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, "coffee.page.html", &models.TemplateData{})
+}
+
+// CassavaCake renders the cassava-cake page
+func (m *Repository) CassavaCake(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, "cassava-cake.page.html", &models.TemplateData{})
+}
+
+func (m *Repository) Order(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, "order.page.html", &models.TemplateData{})
+}
+
+func (m *Repository) Confirm(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, "confirm.page.html", &models.TemplateData{})
+}

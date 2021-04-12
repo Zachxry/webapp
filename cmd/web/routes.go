@@ -15,10 +15,20 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Use(middleware.Recoverer) // middleware to handle panics gracefully
 	mux.Use(NoSurf)               // NoSurf used to combat CSRF attacks
 	mux.Use(SessionLoad)
+
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
+	mux.Get("/coffee", handlers.Repo.Coffee)
+	mux.Get("/cassava-cake", handlers.Repo.CassavaCake)
+	mux.Get("/order", handlers.Repo.Order)
+	mux.Get("/confirm", handlers.Repo.Confirm)
+
+
+
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
 	return mux
 }
+
+
