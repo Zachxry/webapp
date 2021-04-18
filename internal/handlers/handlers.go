@@ -63,6 +63,9 @@ func (m *Repository) CassavaCake(w http.ResponseWriter, r *http.Request) {
 
 // Order renders the order page
 func (m *Repository) Order(w http.ResponseWriter, r *http.Request) {
+
+	// add form logic for order and then redirect to confirm page
+
 	render.Template(w, r, "order.page.html", &models.TemplateData{})
 }
 
@@ -109,6 +112,10 @@ func (m *Repository) PostConfirm(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+
+	m.App.Session.Put(r.Context(), "confirmOrder", confirmOrder) // storing value of the session
+
+	http.Redirect(w, r, "/order-summary", http.StatusSeeOther)
 }
 
 // Contact renders the Contact page
@@ -116,8 +123,7 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "contact.page.html", &models.TemplateData{})
 }
 
-func (m *Repository) PostOrder(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "confirm.page.html", &models.TemplateData{})
+func (m *Repository) OrderSummary(w http.ResponseWriter, r *http.Request) {
 }
 
 type jsonResponse struct {
