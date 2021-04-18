@@ -3,7 +3,9 @@ package main
 import (
 	"WebApp/internal/config"
 	"WebApp/internal/handlers"
+	"WebApp/internal/models"
 	"WebApp/internal/render"
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,6 +21,9 @@ var session *scs.SessionManager // creates a variable session which is a pointer
 
 // main is the main application function
 func main() {
+
+	// what I am going to put in the session
+	gob.Register(models.ConfirmOrder{})
 
 	// change this when in production
 	app.InProduction = false

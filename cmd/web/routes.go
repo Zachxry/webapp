@@ -24,11 +24,11 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/cassava-cake", handlers.Repo.CassavaCake)
 
 	mux.Get("/order", handlers.Repo.Order)
-	mux.Post("/order", handlers.Repo.PostOrder)
 	mux.Get("/OrderAvailabilityJSON", handlers.Repo.OrderAvailabilityJSON)
 
 	mux.Get("/confirm", handlers.Repo.Confirm)
 	mux.Post("/confirm", handlers.Repo.PostConfirm)
+	mux.Get("/order-summary", handlers.Repo.OrderSummary)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

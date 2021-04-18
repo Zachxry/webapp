@@ -124,6 +124,19 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) OrderSummary(w http.ResponseWriter, r *http.Request) {
+	confirmOrder, ok := m.App.Session.Get(r.Context(), "confirmOrder").(models.ConfirmOrder) // type assertion to models.ConfirmOrder struct
+	if !ok {
+		// Going to add redirct logic here for those without order information
+		log.Println("cannot get information from session")
+		return
+	}
+
+	data := make(map[string]interface{}) // created a map to access the confirmOrder template data
+	data["confirmOrder"] = confirmOrder
+
+	render.Template(w, r, "order-summary.page.html", &models.TemplateData{ // render the order summary and passed the confirmOrder template data
+		Data: data,
+	})
 }
 
 type jsonResponse struct {
