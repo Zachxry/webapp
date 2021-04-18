@@ -60,24 +60,24 @@
     </div>
   </nav>
 
-{{block "content" .}}
+  {{block "content" .}}
   {{end}}
 
 
 
 
-<div class="footer">
+  <div class="footer">
     <div class="row">
       <div class="col">
         <h4>Author@Zachxry</h4>
       </div>
 
       <div class="col">
-        <h4>Comment:</h4>
+        <h4>Coffee & Cassava</h4>
       </div>
 
       <div class="col">
-        <h4>Subscribe:</h4>
+        <h4>Est. 2021</h4>
       </div>
     </div>
   </div>
@@ -101,19 +101,16 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   {{block "js" .}}
-  {{end}}  
+  {{end}}
 
 
 
   <script>
 
 
-
-
-
     // JavaScript for disabling form submissions if there are invalid fields
     (function () {
-      'use strict'
+      //'use strict'
 
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
       let forms = document.querySelectorAll('.needs-validation')
@@ -132,23 +129,40 @@
         })
     })()
 
+
+    
+
     // Example button for testing purposes
-    document.getElementById("button").addEventListener("click", function () {
-      // input here...
-      let attention = Prompt()
+    // document.getElementById("button").addEventListener("click", function () {
+    //   // input here...
+    //   var html = ` 
+    // <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+    //   <div class="form-row">
+    //     <div class="col">
+    //       <div class="form-row" id="order-date-modal">
+    //         <div class="col">
+    //           <input disabled required class="form-control" type="text" name="startOrder" id="startOrder" placeholder="Coffee_order">
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </form>`;
 
-      attention.custom()
-
+    //   let attention = Prompt()
+    //   attention.custom({ title: "Choose date" })
 
       //notify("testing", "warning")
       //alertSweet();
-    })
+    // })
+
 
     // Adding custom date picker
-    const elem = document.querySelector('input[name="date"]');
+    const elem = document.querySelector('input[name="order-date"]');
     const datepicker = new Datepicker(elem, {
       // ...options
     });
+
+
 
 
     function notify(msg, msgType) {
@@ -167,46 +181,47 @@
       })
     }
 
+
     // Creating a custom Javascript module for some alert functions
     function Prompt() {
-      async function custom(){
-        const { value: fruit } = await swal({
-          title: 'Order Items',
-          input: 'Select',
-          inputOptions: {
-            'Fruits': {
-              apples: 'Apples',
-              bananas: 'Bananas',
-              grapes: 'Grapes',
-              oranges: 'Oranges'
-            },
-            'Vegetables': {
-              potato: 'Potato',
-              broccoli: 'Broccoli',
-              carrot: 'Carrot'
-            },
-            'icecream': 'Ice cream'
-          },
-          inputPlaceHolder: 'Select a fruit',
-          buttons: true,
-          inputValidator: (value) => {
-            return new Promise((resolve) => {
-              if (value === '') {
-                resolve('Order looks good!')
-              }
+      async function custom(c) {
+        const {
+          title = "",
+        } = c;
+
+        const { value: formValues } = await swal({
+          title: title,
+          content: 'input',
+          backdrop: false,
+          focusConfirm: false,
+          button: true,
+          willOpen: () => {
+            const elem = document.getElementById('order-date-modal');
+            const rp = new Datepicker(elem, {
+              format: 'mm-dd-yyyy',
+              showOnFocus: true,
             })
+          },
+          preConfirm: () => {
+            return [
+              document.getElementById('startOrder').value
+            ]
+          },
+          didOpen: () => {
+            document.getElementById('startOrder').removeAttribute('disabled');
           }
-        }) 
+        })
 
-        if (fruit) {
-          swal(`You selected: ${fruit}`)
-        }
-      } 
-
-        return {
-          custom: custom
+        if (formValues) {
+          swal(JSON.stringify(formValues))
         }
       }
+
+      return {
+        custom: custom
+      }
+    }
+
 
 
   </script>

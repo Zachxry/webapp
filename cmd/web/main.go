@@ -1,14 +1,15 @@
 package main
 
 import (
-	"WebApp/pkg/config"
-	"WebApp/pkg/handlers"
-	"WebApp/pkg/render"
+	"WebApp/internal/config"
+	"WebApp/internal/handlers"
+	"WebApp/internal/render"
 	"fmt"
-	"github.com/alexedwards/scs/v2"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/alexedwards/scs/v2"
 )
 
 const portNumber = ":8080"
@@ -43,7 +44,7 @@ func main() {
 
 	fmt.Printf("Starting application on port %s", portNumber)
 
-	srv := &http.Server{
+	srv := http.Server{
 		Addr:    portNumber,
 		Handler: routes(&app),
 	}

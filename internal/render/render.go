@@ -1,14 +1,16 @@
 package render
 
 import (
-	"WebApp/pkg/config"
-	"WebApp/pkg/models"
+	"WebApp/internal/config"
+	"WebApp/internal/models"
 	"bytes"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/justinas/nosurf"
 )
 
 var functions = template.FuncMap{}
@@ -20,12 +22,13 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
 	return td // returns template data struct, we can add data here as needed
 }
 
 // Template is used to render our html templates
-func Template(w http.ResponseWriter, html string, td *models.TemplateData) {
+func Template(w http.ResponseWriter, r *http.Request, html string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template // variable tc that is a map with a [key]value pair of [string] pointer to template.Template
 	// Template is a specialized Template from "text/template" that produces a safe HTML document fragment.
@@ -42,7 +45,7 @@ func Template(w http.ResponseWriter, html string, td *models.TemplateData) {
 
 	buf := new(bytes.Buffer)
 
-	td = AddDefaultData(td) // adds data we would want to have on pages by default as needed
+	td = AddDefaultData(td, r) // adds data we would want to have on pages by default as needed
 
 	_ = t.Execute(buf, td) // where our data gets passed from the pointer to models.TemplateData
 
