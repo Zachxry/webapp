@@ -6,7 +6,7 @@
   <div class="col">
     <h1>Confirm Order</h1>
 
-    {{$ord := index .Data "confirmOrder"}}
+    {{$ord := index .Data "confirmInfo"}}
 
     <form method="post" action="/confirm" class="" novalidate>
       <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">

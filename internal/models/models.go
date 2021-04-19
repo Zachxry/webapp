@@ -1,7 +1,7 @@
 package models
 
 // ConfirmOrder holds the confirm form data
-type ConfirmOrder struct {
+type ConfirmInfo struct {
 	FirstName string
 	LastName  string
 	Email     string

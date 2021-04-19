@@ -71,9 +71,9 @@ func (m *Repository) Order(w http.ResponseWriter, r *http.Request) {
 
 // Confirm renders the confirm page
 func (m *Repository) Confirm(w http.ResponseWriter, r *http.Request) {
-	var emptyOrder models.ConfirmOrder
+	var emptyInfo models.ConfirmInfo
 	data := make(map[string]interface{})
-	data["confirmOrder"] = emptyOrder
+	data["confirmInfo"] = emptyInfo
 
 	render.Template(w, r, "confirm.page.html", &models.TemplateData{
 		Form: forms.New(nil),
@@ -88,7 +88,7 @@ func (m *Repository) PostConfirm(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	confirmOrder := models.ConfirmOrder{
+	confirmInfo := models.ConfirmInfo{
 		FirstName: r.Form.Get("first_name"),
 		LastName:  r.Form.Get("last_name"),
 		Email:     r.Form.Get("email"),
@@ -104,7 +104,7 @@ func (m *Repository) PostConfirm(w http.ResponseWriter, r *http.Request) {
 
 	if !form.Valid() {
 		data := make(map[string]interface{})
-		data["confirmOrder"] = confirmOrder
+		data["confirmInfo"] = confirmInfo
 
 		render.Template(w, r, "confirm.page.html", &models.TemplateData{
 			Form: form,
@@ -113,7 +113,7 @@ func (m *Repository) PostConfirm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	m.App.Session.Put(r.Context(), "confirmOrder", confirmOrder) // storing value of the session
+	m.App.Session.Put(r.Context(), "confirmInfo", confirmInfo) // storing value of the session
 
 	http.Redirect(w, r, "/order-summary", http.StatusSeeOther)
 }
@@ -123,16 +123,18 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "contact.page.html", &models.TemplateData{})
 }
 
+// OrderSummary displays information on the page for a given order
 func (m *Repository) OrderSummary(w http.ResponseWriter, r *http.Request) {
-	confirmOrder, ok := m.App.Session.Get(r.Context(), "confirmOrder").(models.ConfirmOrder) // type assertion to models.ConfirmOrder struct
+	confirmInfo, ok := m.App.Session.Get(r.Context(), "confirmOrder").(models.ConfirmInfo) // type assertion to models.ConfirmOrder struct
 	if !ok {
-		// Going to add redirct logic here for those without order information
 		log.Println("cannot get information from session")
+		m.App.Session.Put(r.Context(), "error", "Can not get order summary from session")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
 
 	data := make(map[string]interface{}) // created a map to access the confirmOrder template data
-	data["confirmOrder"] = confirmOrder
+	data["confirmInfo"] = confirmInfo
 
 	render.Template(w, r, "order-summary.page.html", &models.TemplateData{ // render the order summary and passed the confirmOrder template data
 		Data: data,

@@ -23,7 +23,7 @@ var session *scs.SessionManager // creates a variable session which is a pointer
 func main() {
 
 	// what I am going to put in the session
-	gob.Register(models.ConfirmOrder{})
+	gob.Register(models.ConfirmInfo{})
 
 	// change this when in production
 	app.InProduction = false
