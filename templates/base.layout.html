@@ -156,8 +156,16 @@
     // })
 
 
+    {{with .Error}}
+    notify("{{.}}", "error")
+    {{end}}
+
+    {{with .Flash}}
+    notify("{{.}}", "success")
+    {{end}}  
+
     // Adding custom date picker
-    const elem = document.querySelector('input[name="order-date"]');
+    const elem = document.querySelector('input[name="order_date"]');
     const datepicker = new Datepicker(elem, {
       // ...options
     });

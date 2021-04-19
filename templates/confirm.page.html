@@ -4,9 +4,9 @@
 
 <div class="container">
   <div class="col">
-    <h1>Confirm Order</h1>
+    <h1>Confirm Info</h1>
 
-    {{$ord := index .Data "confirmInfo"}}
+    {{$conf := index .Data "confirmInfo"}}
 
     <form method="post" action="/confirm" class="" novalidate>
       <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
@@ -16,7 +16,7 @@
         <label class="text-danger">{{.}}</label>
         {{end}}
         <input type="text" name="first_name"  id="first_name" class="form-control {{with .Form.Errors.Get "first_name"}}
-          is-invalid {{end}}" value="{{$ord.FirstName}}" required autocomplete="off">
+          is-invalid {{end}}" value="{{$conf.FirstName}}" required autocomplete="off">
       </div>
 
       <div class="form-group">
@@ -25,7 +25,7 @@
         <label class="text-danger">{{.}}</label>
         {{end}}
         <input type="text" name="last_name" id="last_name" class="form-control {{with .Form.Errors.Get "last_name"}}
-        is-invalid {{end}}" value="{{$ord.LastName}}" required autocomplete="off">
+        is-invalid {{end}}" value="{{$conf.LastName}}" required autocomplete="off">
       </div>
 
       <div class="form-group">
@@ -34,7 +34,7 @@
         <label class="text-danger">{{.}}</label>
         {{end}}
         <input type="email" name="email" id="email" class="form-control {{with .Form.Errors.Get "email"}}
-        is-invalid {{end}}" value="{{$ord.Email}}" required autocomplete="off">
+        is-invalid {{end}}" value="{{$conf.Email}}" required autocomplete="off">
       </div>
 
       <div class="form-group">
@@ -43,7 +43,7 @@
         <label class="text-danger">{{.}}</label>
         {{end}}
         <input type="phone" name="phone" id="phone" class="form-control {{with .Form.Errors.Get "phone"}}
-        is-invalid {{end}}" value="{{$ord.Phone}}" required autocomplete="off">
+        is-invalid {{end}}" value="{{$conf.Phone}}" required autocomplete="off">
       </div>
 
       <hr>
@@ -51,5 +51,6 @@
 
     </form>
   </div>
+</div>
 
   {{end}}

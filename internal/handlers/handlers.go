@@ -64,8 +64,6 @@ func (m *Repository) CassavaCake(w http.ResponseWriter, r *http.Request) {
 // Order renders the order page
 func (m *Repository) Order(w http.ResponseWriter, r *http.Request) {
 
-	// add form logic for order and then redirect to confirm page
-
 	render.Template(w, r, "order.page.html", &models.TemplateData{})
 }
 
@@ -81,7 +79,7 @@ func (m *Repository) Confirm(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// Confirm renders the confirm page
+// PostConfirm handles the post form logic and redirect to order summary
 func (m *Repository) PostConfirm(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -125,7 +123,7 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 
 // OrderSummary displays information on the page for a given order
 func (m *Repository) OrderSummary(w http.ResponseWriter, r *http.Request) {
-	confirmInfo, ok := m.App.Session.Get(r.Context(), "confirmOrder").(models.ConfirmInfo) // type assertion to models.ConfirmOrder struct
+	confirmInfo, ok := m.App.Session.Get(r.Context(), "confirmInfo").(models.ConfirmInfo) // type assertion to models.ConfirmInfo struct
 	if !ok {
 		log.Println("cannot get information from session")
 		m.App.Session.Put(r.Context(), "error", "Can not get order summary from session")
@@ -133,10 +131,11 @@ func (m *Repository) OrderSummary(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := make(map[string]interface{}) // created a map to access the confirmOrder template data
+	m.App.Session.Remove(r.Context(), "confirmInfo")
+	data := make(map[string]interface{}) // created a map to access the confirmInfo template data
 	data["confirmInfo"] = confirmInfo
 
-	render.Template(w, r, "order-summary.page.html", &models.TemplateData{ // render the order summary and passed the confirmOrder template data
+	render.Template(w, r, "order-summary.page.html", &models.TemplateData{ // render the order summary and passed the confirmInfo and orderInfo template data
 		Data: data,
 	})
 }

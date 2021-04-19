@@ -3,8 +3,8 @@
 {{define "content"}}
 
 <!--To lookup info in a map, use index, the map we want to lookup (in this case data) .Data 
-    and the key (in this case the order confirmation) "confirmOrder" which will get stored in the $ord variable-->
-{{$ord := index .Data "confirmInfo"}}
+    and the key (in this case the order confirmation) "confirmInfo" which will get stored in the $ord variable-->
+{{$conf := index .Data "confirmInfo"}}
 
 <div class="container">
     <div class="row">
@@ -18,7 +18,7 @@
                 <tbody>
                     <tr>
                         <td>Name:</td>
-                        <td>{{$ord.FirstName}} {{$ord.LastName}}</td>
+                        <td>{{$conf.FirstName}} {{$conf.LastName}}</td>
                     </tr>
 
                     <tr>
@@ -33,12 +33,12 @@
 
                     <tr>
                         <td>Email:</td>
-                        <td>{{$ord.Email}}</td>
+                        <td>{{$conf.Email}}</td>
                     </tr>
 
                     <tr>
                         <td>Phone:</td>
-                        <td>{{$ord.Phone}}</td>
+                        <td>{{$conf.Phone}}</td>
                     </tr>
                 </tbody>
             </table>

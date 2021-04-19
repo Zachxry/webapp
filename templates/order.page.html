@@ -4,45 +4,37 @@
 
 
 <div class="container">
-    <div class="col-md-6">
-      <h1 class="mt-5">Order Now</h1>
+  <div class="col-md-6">
+    <h1 class="mt-5">Order Now</h1>
 
-      <form action="/order" method="post" class="needs-validation" novalidate>
+
+      <form method="post" action="/order" class="" novalidate>
         <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
-        <div class="form-row">
-          <div class="col">
-            <input required class="form-control" type="text" name="order-date" placeholder="Order date">
-          </div>
-          <div class="col mt-3">
-            <select required class="form-control" list="products" type="search" name="order-items" placholder="Order Items">
+
+        <div class="form-group mt-5">
+            <input required class="form-control" type="text" name="order_date" placeholder="Order date">
+        </div>
+
+
+        <div class="form-group mt-2">
+            <select required class="form-control" list="order_items" type="search" name="order_items" placholder="Order Items">
               <option value="Coffee">
                 Coffee - $3.99
               </option>
-              <option value="Cassava-cake">
+              <option value="Cassava Cake">
                 Cassava Cake - $5.99
               </option>
-              <option value="Coffee & Cassava-cake">
+              <option value="Coffee & Cassava Cake">
                 Coffee & Cassava Cake - $ 10.69
               </option>
             </select>
-          </div>
         </div>
-
-        <hr>
-        <button type="sumbit" class="btn btn-primary">Place Order</button>
+        
+          <hr>
+          <input type="sumbit" class="btn btn-primary" value="Place Order">
       </form>
-    </div>
   </div>
-
-
-
-  <!-- <div class="row">
-    <div class="col">
-      <p>
-        <button id="button" class="btn btn-outline-secondary"> Click here</button>
-      </p>
-    </div>
-  </div> -->
+</div>
 
 
 {{end}}
