@@ -55,7 +55,7 @@ func getRoutes() http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer) // middleware to handle panics gracefully
-	mux.Use(NoSurf)               // NoSurf used to combat CSRF attacks
+	//mux.Use(NoSurf)               // NoSurf used to combat CSRF attacks
 	mux.Use(SessionLoad)
 
 	mux.Get("/", Repo.Home)

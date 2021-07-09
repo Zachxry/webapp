@@ -4,9 +4,9 @@ import (
 	"WebApp/internal/config"
 	"WebApp/internal/models"
 	"bytes"
+	"errors"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"path/filepath"
 
@@ -34,7 +34,7 @@ func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateDa
 }
 
 // Template is used to render our html templates
-func Template(w http.ResponseWriter, r *http.Request, html string, td *models.TemplateData) {
+func Template(w http.ResponseWriter, r *http.Request, html string, td *models.TemplateData) error {
 
 	var tc map[string]*template.Template // variable tc that is a map with a [key]value pair of [string] pointer to template.Template
 	// Template is a specialized Template from "text/template" that produces a safe HTML document fragment.
@@ -46,7 +46,7 @@ func Template(w http.ResponseWriter, r *http.Request, html string, td *models.Te
 
 	t, ok := tc[html]
 	if !ok {
-		log.Fatal("could not get template")
+		return errors.New("can't get template from cache")
 	}
 
 	buf := new(bytes.Buffer)
@@ -58,11 +58,12 @@ func Template(w http.ResponseWriter, r *http.Request, html string, td *models.Te
 	_, err := buf.WriteTo(w) // write the bytes of data to the browser
 	if err != nil {
 		fmt.Println("Error writing to browser", err)
+		return err
 	}
-
+	return nil
 }
 
-// CreateTemplateCache creates a template cache as a map
+// CreateTemplateCache creates a template cache using a map
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
