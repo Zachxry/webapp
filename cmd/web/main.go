@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
@@ -16,8 +17,10 @@ import (
 
 const portNumber = ":8080"
 
-var app config.AppConfig        // // creates a variable app which is has the value of the config structure
+var app config.AppConfig        // creates a variable app which is has the value of the config structure
 var session *scs.SessionManager // creates a variable session which is a pointer to SessionManager structure
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 // main is the main application function
 func main() {
@@ -44,6 +47,12 @@ func run() error {
 
 	// change this when in production
 	app.InProduction = false
+
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
 
 	session = scs.New()               // returns a new session manager with the default options. It is safe for concurrent use.
 	session.Lifetime = 24 * time.Hour // session set for 24 hours
