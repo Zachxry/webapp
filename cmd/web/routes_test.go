@@ -17,4 +17,4 @@ func TestRoutes(t *testing.T) {
 	default:
 		t.Error(fmt.Sprintf("type is %T", v))
 	}
-} // test fails... correctly.
+}
